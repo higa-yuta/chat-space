@@ -1,0 +1,52 @@
+.sidebar
+  .sidebar__header
+    .sidebar__header-username
+      test taro
+    .sidebar__header-iconbox
+      = link_to '/' do
+        = icon('fas', 'edit', class: 'edit')
+      = link_to '/' do
+        = icon('fas', 'cog', class: 'cog')
+  .sidebar__main
+    .sidebar__main-groupname
+      test group
+  
+
+.mainbar
+  .mainbar__header
+    .mainbar__header-box
+      .mainbar__header-groupname
+        test group
+      %span.members-name
+        Member:
+    .mainbar__header-edit
+      = link_to '/', class: 'editbtn btn' do
+        Edit
+
+  .mainbar__main
+    %ul.mainbar__main-groupbox
+      %il.groupname
+        test taro
+      %il.post-time
+        = Time.now.strftime("at %I:%M%#p")   
+    .mainbar__main-message
+      hello
+    %ul.mainbar__main-groupbox
+      %il.groupname
+        test taro
+      %il.post-time
+        = Time.now.strftime("at %I:%M%#p")   
+    .mainbar__main-message
+      hello
+
+
+  .mainbar__footer
+    %ul.mainbar__footer-box
+      %li.inputbox
+        %input(type="text")/
+      %li.imagebtn
+        = link_to '/' do
+          = icon('fas', 'image')
+    .mainbar__footer-sentBox
+      = link_to '/', class: 'sentBtn btn' do
+        sent
