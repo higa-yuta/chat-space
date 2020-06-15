@@ -1,5 +1,5 @@
 
-= form_for @group do |f|
+= form_with model: @group, local: true do |f|
   - if @group.errors.any?
     .chat-group-form__errors
       %h2

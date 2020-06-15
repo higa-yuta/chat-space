@@ -9,6 +9,7 @@ class GroupsController < ApplicationController
   def new
     @group = Group.new
     @group.users << @group.users &&= @group.users
+    console
   end
 
   def create

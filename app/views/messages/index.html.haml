@@ -12,29 +12,24 @@
         Edit
 
   .mainbar__main
-    %ul.mainbar__main-groupbox
-      %il.groupname
-        test taro
-      %il.post-time
-        = Time.now.strftime("at %I:%M%#p")   
-    .mainbar__main-message
-      hello
-    %ul.mainbar__main-groupbox
-      %il.groupname
-        test taro
-      %il.post-time
-        = Time.now.strftime("at %I:%M%#p")   
-    .mainbar__main-message
-      hello
+    - @messages.each do |msg|
+      %ul.mainbar__main-groupbox
+        %il.groupname
+          = msg.user.name
+        %il.post-time
+          = msg.created_at.strftime("at %I:%M%#p")   
+      .mainbar__main-message
+        = msg.text
 
 
   .mainbar__footer
-    %ul.mainbar__footer-box
-      %li.inputbox
-        %input(type="text")/
-      %li.imagebtn
-        = link_to '/' do
-          = icon('fas', 'image')
-    .mainbar__footer-sentBox
-      = link_to '/', class: 'sentBtn btn' do
-        sent
+    = form_with model: [@groups, @message], local: true do |f|
+      %ul.mainbar__footer-box
+        %li.inputbox
+          = f.text_field :text
+        %li.imagebtn
+          = f.label :image do
+            = icon('fas', 'image')
+            = f.file_field :image, class: 'hidden'
+      .mainbar__footer-sentBox
+        = f.submit 'sent', class: 'sentBtn btn'
