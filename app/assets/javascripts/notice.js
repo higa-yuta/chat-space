@@ -1,0 +1,1 @@
+$.notify($('#flash-notice').text().trim());

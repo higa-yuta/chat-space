@@ -1,24 +1,12 @@
-.sidebar
-  .sidebar__header
-    .sidebar__header-username
-      test taro
-    .sidebar__header-iconbox
-      = link_to '/' do
-        = icon('fas', 'edit', class: 'edit')
-      = link_to '/' do
-        = icon('fas', 'cog', class: 'cog')
-  .sidebar__main
-    .sidebar__main-groupname
-      test group
-  
+= render 'share/sidebar'
 
 .mainbar
   .mainbar__header
     .mainbar__header-box
       .mainbar__header-groupname
-        test group
+        = @groups.name
       %span.members-name
-        Member:
+        = "Member: #{@users}"
     .mainbar__header-edit
       = link_to '/', class: 'editbtn btn' do
         Edit
