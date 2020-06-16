@@ -20,6 +20,8 @@
           = msg.created_at.strftime("at %I:%M%#p")   
       .mainbar__main-message
         = msg.text
+      - if msg.image.present?
+        = image_tag msg.image.to_s, size: '400x400', id: 'message-image'
 
 
   .mainbar__footer
