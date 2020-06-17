@@ -28,7 +28,7 @@
     = form_with model: [@groups, @message], local: true do |f|
       %ul.mainbar__footer-box
         %li.inputbox
-          = f.text_field :text
+          = f.text_field :text, placeholder: 'type a text'
         %li.imagebtn
           = f.label :image do
             = icon('fas', 'image')
