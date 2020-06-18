@@ -26,7 +26,12 @@ class MessagesController < ApplicationController
   end
 
   def set_group
-    @groups = Group.find(params[:group_id])
+    group = Array(Group.all).map(&:id).include?(params[:group_id].to_i)
+    if group
+      @groups = Group.find(params[:group_id])
+    else
+      redirect_to root_path, notice: 'そのグループはありません'
+    end
   end
 
 end
