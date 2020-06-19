@@ -39,8 +39,8 @@ describe User do
 
     ## メールアドレスが重複している場合(エラー)
     it "is invalid with a duplicate email address" do
-      user = create(:user)
-      another_user = build(:user)
+      user = create(:user, email: 'test@gmail.com')
+      another_user = build(:user, email: 'test@gmail.com')
       another_user.valid?
       expect(another_user.errors[:email]).to include("has already been taken")
     end

@@ -8,7 +8,7 @@
       %span.members-name
         = "Member: #{@users}"
     .mainbar__header-edit
-      = link_to '/', class: 'editbtn btn' do
+      = link_to edit_group_path(@groups), class: 'editbtn btn' do
         Edit
 
   .mainbar__main

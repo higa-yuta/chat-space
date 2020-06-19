@@ -1,9 +1,9 @@
 
 = form_with model: @group, local: true do |f|
-  - if @group.errors.any?
+  - if @group&.errors.present?
     .chat-group-form__errors
       %h2
-        = "#{@group.errors.full_messages.count}"
+        = "#{@group.errors.full_messages.size}"
         %ul
           - @group.errors.full_messages.each do |message|
             %li 

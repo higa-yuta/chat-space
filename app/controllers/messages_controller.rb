@@ -4,13 +4,17 @@ class MessagesController < ApplicationController
 
   def index
     @message = Message.new
-    @messages = @groups.messages.includes(:user)
+    @messages = @groups.messages.includes(:user).order("created_at desc")
     group_member(@groups)
   end
 
   def create
     @message = @groups.messages.new(params_massage)
-    redirect_to group_messages_path(params[:group_id]) if @message.save
+    if @message.save
+      redirect_to group_messages_path(params[:group_id])
+    # else
+    #   redirect_to group_messages_path(params[:group_id])
+    end
   end
 
   def group_member(group)

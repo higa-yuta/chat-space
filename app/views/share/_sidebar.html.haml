@@ -3,7 +3,7 @@
     .sidebar__header-username
       = current_user.name
     .sidebar__header-iconbox
-      = link_to '/' do
+      = link_to new_group_path do
         = icon('fas', 'edit', class: 'edit')
       = link_to edit_user_path(current_user.id) do
         = icon('fas', 'cog', class: 'cog')
