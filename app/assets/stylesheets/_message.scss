@@ -104,14 +104,22 @@
       font: bold 14px 'Roboto';
       color: #434a54;
     }
+
+    #message-image {
+      object-fit: cover; 
+    }
   }
 
 
   &__footer {
     height: 80px;
-    @include flexbox;
-    padding: 0 40px;
-    background-color: lightgray;
+
+    & form {
+      height: 80px;
+      @include flexbox;
+      padding: 0 40px;
+      background-color: lightgray;
+    }
 
     &-box {
       width: 100%;
@@ -126,7 +134,7 @@
 
       .imagebtn {
         position: absolute;
-        top: 15px;
+        top: 20px;
         right: 20px;
       }
     }
@@ -136,10 +144,12 @@
       .sentBtn {
         font: 100 20px 'Roboto';
         padding: 10px 20px;
+        border: none;
         border-radius: 4px;
         background-color: $blueColor;
         color: #ffffff;
       }
     }
+    
   }
 }

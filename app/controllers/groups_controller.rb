@@ -12,11 +12,13 @@ class GroupsController < ApplicationController
   end
 
   def create
-    @group = Group.new(group_params)
-    if @group.save
-      redirect_to root_path, notice: 'succsess'
+    comfirm_name = Group.all.map(&:name).include?(group_params[:name])
+    unless comfirm_name
+      @group = Group.new(group_params)
+      redirect_to root_path, notice: 'succsess' if @group.save
     else
-      render :new
+      flash.now[:alert] = 'そのグループはすでに存在します'
+      redirect_to new_group_path
     end
   end
 
@@ -26,7 +28,7 @@ class GroupsController < ApplicationController
     if @group.update(group_params)
       redirect_to root_path, notice: 'succsess'
     else
-      render :new
+      redirect_to :edit
     end
   end
 

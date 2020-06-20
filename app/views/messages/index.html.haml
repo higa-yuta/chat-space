@@ -8,33 +8,30 @@
       %span.members-name
         = "Member: #{@users}"
     .mainbar__header-edit
-      = link_to '/', class: 'editbtn btn' do
+      = link_to edit_group_path(@groups), class: 'editbtn btn' do
         Edit
 
   .mainbar__main
-    %ul.mainbar__main-groupbox
-      %il.groupname
-        test taro
-      %il.post-time
-        = Time.now.strftime("at %I:%M%#p")   
-    .mainbar__main-message
-      hello
-    %ul.mainbar__main-groupbox
-      %il.groupname
-        test taro
-      %il.post-time
-        = Time.now.strftime("at %I:%M%#p")   
-    .mainbar__main-message
-      hello
+    - @messages.each do |msg|
+      %ul.mainbar__main-groupbox
+        %il.groupname
+          = msg.user.name
+        %il.post-time
+          = msg.created_at.strftime("at %I:%M%#p")   
+      .mainbar__main-message
+        = msg.text
+      - if msg.image.present?
+        = image_tag msg.image.to_s, size: '400x400', id: 'message-image'
 
 
   .mainbar__footer
-    %ul.mainbar__footer-box
-      %li.inputbox
-        %input(type="text")/
-      %li.imagebtn
-        = link_to '/' do
-          = icon('fas', 'image')
-    .mainbar__footer-sentBox
-      = link_to '/', class: 'sentBtn btn' do
-        sent
+    = form_with model: [@groups, @message], local: true do |f|
+      %ul.mainbar__footer-box
+        %li.inputbox
+          = f.text_field :text, placeholder: 'type a text'
+        %li.imagebtn
+          = f.label :image do
+            = icon('fas', 'image')
+            = f.file_field :image, class: 'hidden'
+      .mainbar__footer-sentBox
+        = f.submit 'sent', class: 'sentBtn btn'

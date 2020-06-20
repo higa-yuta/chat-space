@@ -3,14 +3,14 @@
     .sidebar__header-username
       = current_user.name
     .sidebar__header-iconbox
-      = link_to '/' do
+      = link_to new_group_path do
         = icon('fas', 'edit', class: 'edit')
       = link_to edit_user_path(current_user.id) do
         = icon('fas', 'cog', class: 'cog')
   .sidebar__main
-    - current_user.groups.each do |group|
+    - current_user.groups.includes(:messages).each do |group|
       = link_to group_messages_path(group.id) do
         .sidebar__main-groupname
           = group.name
         .sidebar__main-message
-          no message
+          = group.messages.blank? ? 'no message' : group.messages.map(&:text).first
