@@ -12,7 +12,7 @@ class GroupsController < ApplicationController
   end
 
   def create
-    comfirm_name = Group.all.map(&:name).include?(group_params[:name])
+    comfirm_name = current_user.groups.all.map(&:name).include?(group_params[:name])
     unless comfirm_name
       @group = Group.new(group_params)
       redirect_to root_path, notice: 'succsess' if @group.save
@@ -20,6 +20,13 @@ class GroupsController < ApplicationController
       flash.now[:alert] = 'そのグループはすでに存在します'
       redirect_to new_group_path
     end
+
+    # @group = Group.new(group_params)
+    # if @group.valid?
+    #   redirect_to root_path, notice: 'succsess' if @group.save
+    # else
+    #   redirect_to new_group_path
+    # end
   end
 
   def edit;end

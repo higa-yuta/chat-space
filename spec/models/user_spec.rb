@@ -2,37 +2,37 @@ require 'rails_helper'
 
 describe User do
   describe '#create' do
+    let(:user) { build(:user) }
     # ユーザー名
     ## ユーザーの名前がない場合(エラー)
     it "is invalid without a name" do
-      user = build(:user, name: '')
+      user.name = ''
       user.valid?
       expect(user.errors[:name]).to include("can't be blank")
     end
 
     ## すべての情報が入力されている場合(サクセス)
     it "is valid with a name and a email, a password, a password_confirmation" do
-      user = build(:user)
       expect(user).to be_valid
     end
 
     ## ユーザー名が10文字以上の場合(エラー)
     it "is invalid with a name that has more than 10 characters " do
-      user = build(:user, name: 'test-taro-jiro')
+      user.name = 'test-taro-jiro'
       user.valid?
       expect(user.errors[:name]).to include("is too long (maximum is 10 characters)")
     end
 
     ## ユーザー名が10文字の場合(サクセス)
     it "is valid with a name" do 
-      user = build(:user, name: 'test taroo')
+      user.name = 'test taroo'
       expect(user).to be_valid
     end
 
     #　メールアドレス
     ##　メールアドレスが未入力の場合(エラー)
     it "is invalid without a email" do
-      user = build(:user, email: '')
+      user.email = ''
       user.valid?
       expect(user.errors[:email]).to include("can't be blank")
     end
