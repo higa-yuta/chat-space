@@ -1,8 +1,6 @@
 class UsersController < ApplicationController
 
-  def edit
-
-  end
+  def edit;end
 
   def update
     current_user.update(user_params) ? (redirect_to root_path) : (render :edit)
@@ -10,6 +8,6 @@ class UsersController < ApplicationController
 
   private
   def user_params
-    params.require(:user).permit(:name, :email)
+    params[:user].permit(:name, :email)
   end
 end
