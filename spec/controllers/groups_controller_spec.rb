@@ -64,7 +64,7 @@ describe GroupsController do
         expect(response).to have_http_status "302"
       end
 
-      it "is invalid without group-name" do 
+      it "not save parameter" do 
         expect { post :create, params: { group: { name: '' } } }.not_to change(Group, :count)
       end
 

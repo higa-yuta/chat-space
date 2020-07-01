@@ -12,16 +12,9 @@ class MessagesController < ApplicationController
     @message = @groups.messages.new(params_massage)
     if @message.save
       redirect_to group_messages_path(params[:group_id])
-    # else
-    #   redirect_to group_messages_path(params[:group_id])
+    else
+      redirect_to group_messages_path(params[:group_id])
     end
-  end
-
-  def group_member(group)
-    # @groupsに所属する各ユーザーの名前を配列で返す
-    # @users = User.includes(:group).where(id: params[:group_id])
-    users = @groups.group_users.map {|group| User.find(group.user_id).name }
-    @users = users.join(',')
   end
 
   private
@@ -36,6 +29,13 @@ class MessagesController < ApplicationController
     else
       redirect_to root_path, notice: 'そのグループはありません'
     end
+  end
+
+  def group_member(group)
+    # @groupsに所属する各ユーザーの名前を配列で返す
+    # @users = User.includes(:group).where(id: params[:group_id])
+    users = @groups.group_users.map {|group| User.where(group.user_id).name }
+    @users = users.join(',')
   end
 
 end
