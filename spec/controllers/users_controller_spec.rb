@@ -2,6 +2,8 @@
 
 require 'rails_helper'
 
+# TODO: refactoring
+
 describe UsersController do
   let!(:user) { create(:user) }
   let(:user_params) { { name: 'google', email: 'google@gmail.com' } }

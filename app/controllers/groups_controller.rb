@@ -12,7 +12,7 @@ class GroupsController < ApplicationController
   end
 
   def create
-    unless include_newname?(group_params)
+    unless exist_newname?(group_params)
       @group = Group.new(group_params)
       if @group.save
         redirect_to root_path, notice: 'succsess'
@@ -50,7 +50,7 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id])
   end
 
-  def include_newname?(params)
+  def exist_newname?(params)
     current_user.groups.all.map(&:name).include?(group_params[:name])
   end
 

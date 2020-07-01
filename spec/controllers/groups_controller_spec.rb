@@ -11,7 +11,6 @@ describe GroupsController do
 
   describe 'GET #index' do
     before { get :index }
-
     it "return a 200 response" do
       expect(response).to have_http_status "200"
     end
@@ -25,6 +24,7 @@ describe GroupsController do
       expect(assigns(:group)).to match(group.sort{ |a, b| b.created_at <=> a.created_at })
     end
   end
+
 
   describe 'GET #new' do
     before { get :new }
@@ -44,8 +44,8 @@ describe GroupsController do
 
   describe "POST #create" do
     context "when an effective parameter" do
+      before { post :create, params: { group: group_params } }
       it "rediect to root_path when params saved" do
-        post :create, params: { group: group_params }
         expect(response).to redirect_to root_path
       end
 
@@ -54,23 +54,21 @@ describe GroupsController do
       end
 
       it "return a 302 response" do
-        post :create, params: { group: group_params }
         expect(response).to have_http_status "302"
       end
     end
 
     context "when no effective parameter" do
-      it "return a 200 response" do
-        post :create, params: { group: { name: '12345678910' } }
+      before { post :create, params: { group: { name: nil } } }
+      it "return a 302 response" do
         expect(response).to have_http_status "302"
       end
 
       it "is invalid without group-name" do 
-        expect { post :create, params: { group: { name: '' } }}.not_to change(Group, :count)
+        expect { post :create, params: { group: { name: '' } } }.not_to change(Group, :count)
       end
 
       it "redirect to :new template when can not create new group" do
-        post :create, params: { group: { name: '' } }
         expect(response).to redirect_to "/groups/new"        
       end
     end
@@ -93,11 +91,9 @@ describe GroupsController do
     end
   end
 
-  
 
   describe "PATCH #update" do
     let(:group_params) { {name: 'google'} }
-
     context "when an effective parameter" do
       it "update a gruop's attributes" do
         patch :update, params: { id: group.id, group: group_params }
@@ -117,7 +113,6 @@ describe GroupsController do
     context 'when no effective parameters' do
       let(:not_effective) { {name: nil} }
       before { patch :update, params: { id: group.id, group: not_effective } }
-
       it "redirect to :edit template" do
         expect(response).to redirect_to "/groups/#{group.id}/edit"
       end
