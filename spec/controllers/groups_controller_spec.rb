@@ -1,43 +1,19 @@
 require 'rails_helper'
 
-# TODO: add create, update
-
 describe GroupsController do
   let(:group) { create(:group) }
   let(:user) { create(:user) }
   let(:action) { get :http, params: { id: group }}
+  let(:group_params) { attributes_for(:group) }
+  # let(:invalid_group) { attributes_for(:invalid_group) }
 
-  before do
-    login user
-  end
-
-  describe 'GET #new' do
-    before do
-      get :new
-    end
-
-    it "renders the :new template" do
-      expect(response).to render_template :new
-    end
-  end
-
-  describe 'GET #edit' do
-    before do
-      get :edit, params: {id: group}
-    end
-
-    it "assigns the requested group to @groups" do
-      expect(assigns(:group)).to eq group
-    end
-
-    it "renders the :edit template" do
-      expect(response).to render_template :edit
-    end
-  end
+  before { login user }
 
   describe 'GET #index' do
-    before do
-      get :index
+    before { get :index }
+
+    it "return a 200 response" do
+      expect(response).to have_http_status "200"
     end
 
     it "renders the :index template" do
@@ -48,5 +24,108 @@ describe GroupsController do
       group = create_list(:group, 5)
       expect(assigns(:group)).to match(group.sort{ |a, b| b.created_at <=> a.created_at })
     end
+  end
+
+  describe 'GET #new' do
+    before { get :new }
+    it "renders the :new template" do
+      expect(response).to render_template :new
+    end
+
+    it "return a 200 response" do
+      expect(response).to have_http_status "200"
+    end
+
+    it "assigns the requested group to @group" do
+      expect(assigns(:group)).to be_a_new(Group)
+    end
+  end
+
+
+  describe "POST #create" do
+    context "when an effective parameter" do
+      it "rediect to root_path when params saved" do
+        post :create, params: { group: group_params }
+        expect(response).to redirect_to root_path
+      end
+
+      it "assigns the created group to group" do
+        expect { post :create, params: { group: group_params }}.to change(Group, :count).by(1)
+      end
+
+      it "return a 302 response" do
+        post :create, params: { group: group_params }
+        expect(response).to have_http_status "302"
+      end
+    end
+
+    context "when no effective parameter" do
+      it "return a 200 response" do
+        post :create, params: { group: { name: '12345678910' } }
+        expect(response).to have_http_status "302"
+      end
+
+      it "is invalid without group-name" do 
+        expect { post :create, params: { group: { name: '' } }}.not_to change(Group, :count)
+      end
+
+      it "redirect to :new template when can not create new group" do
+        post :create, params: { group: { name: '' } }
+        expect(response).to redirect_to "/groups/new"        
+      end
+    end
+  end 
+
+
+  describe 'GET #edit' do
+    before { get :edit, params: {id: group} }
+
+    it "assigns the requested group to @groups" do
+      expect(assigns(:group)).to eq group
+    end
+
+    it "renders the :edit template" do
+      expect(response).to render_template :edit
+    end
+
+    it "return a 200 response" do
+      expect(response).to have_http_status "200"
+    end
+  end
+
+  
+
+  describe "PATCH #update" do
+    let(:group_params) { {name: 'google'} }
+
+    context "when an effective parameter" do
+      it "update a gruop's attributes" do
+        patch :update, params: { id: group.id, group: group_params }
+        expect(group.reload.name).to eq "google"
+      end
+
+      it "return a 200 response" do
+        expect(response).to have_http_status "200"
+      end
+
+      it "redirect to the root_path" do
+        patch :update, params: { id: group.id, group: group_params }
+        expect(response).to redirect_to root_path
+      end
+    end
+    
+    context 'when no effective parameters' do
+      let(:not_effective) { {name: nil} }
+      before { patch :update, params: { id: group.id, group: not_effective } }
+
+      it "redirect to :edit template" do
+        expect(response).to redirect_to "/groups/#{group.id}/edit"
+      end
+
+      it "return a 302 response" do
+        expect(response).to have_http_status "302"
+      end
+    end
+    
   end
 end

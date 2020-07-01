@@ -8,5 +8,4 @@ class Group < ApplicationRecord
             presence: true,
             length: { maximum: 10 },
             format: { with: /\A[a-z0-9]+\z/i }
-
-end
+end 

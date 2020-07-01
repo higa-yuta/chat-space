@@ -29,7 +29,7 @@ describe UsersController do
         expect(user.reload.email).to eq("google@gmail.com")
         end
       #　変更が保存後、root_pathにリダイレクトされるか
-      it "changed user's attributes "  do
+      it "redirect the root_path"  do
         patch :update, params: { id: user.id, user: user_params }
         expect(response).to redirect_to root_path
       end
