@@ -1,11 +1,13 @@
 class UsersController < ApplicationController
 
-  def edit
-
-  end
+  def edit;end
 
   def update
-    current_user.update(user_params) ? (redirect_to root_path) : (render :edit)
+    if current_user.update(user_params)
+      redirect_to root_path
+    else
+      redirect_to edit_user_path(current_user.id)
+    end
   end
 
   private

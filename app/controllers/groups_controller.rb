@@ -12,14 +12,23 @@ class GroupsController < ApplicationController
   end
 
   def create
-    comfirm_name = Group.all.map(&:name).include?(group_params[:name])
-    unless comfirm_name
+    unless exi_newname?(group_params)
       @group = Group.new(group_params)
-      redirect_to root_path, notice: 'succsess' if @group.save
+      if @group.save
+        redirect_to root_path, notice: 'succsess'
+      else
+        redirect_to new_group_path
+      end
     else
       flash.now[:alert] = 'そのグループはすでに存在します'
       redirect_to new_group_path
     end
+    # @group = Group.new(group_params)
+    # if @group.valid?
+    #   redirect_to root_path, notice: 'succsess' if @group.save
+    # else
+    #   redirect_to new_group_path
+    # end
   end
 
   def edit;end
@@ -28,7 +37,7 @@ class GroupsController < ApplicationController
     if @group.update(group_params)
       redirect_to root_path, notice: 'succsess'
     else
-      redirect_to :edit
+      redirect_to controller: :groups, action: :edit
     end
   end
 
@@ -40,4 +49,9 @@ class GroupsController < ApplicationController
   def set_group
     @group = Group.find(params[:id])
   end
+
+  def exist_newname?(params)
+    current_user.groups.all.map(&:name).include?(group_params[:name])
+  end
+
 end
