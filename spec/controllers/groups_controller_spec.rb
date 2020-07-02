@@ -93,19 +93,21 @@ describe GroupsController do
 
 
   describe "PATCH #update" do
-    let(:group_params) { {name: 'google'} }
     context "when an effective parameter" do
+      let(:group_params) { {name: 'google'} }
+      let(:effective_parames) { patch :update, params: { id: group.id, group: group_params } }
       it "update a gruop's attributes" do
-        patch :update, params: { id: group.id, group: group_params }
+        effective_parames
         expect(group.reload.name).to eq "google"
       end
 
-      it "return a 200 response" do
-        expect(response).to have_http_status "200"
+      it "return a 302 response" do
+        effective_parames
+        expect(response).to have_http_status "302"
       end
 
       it "redirect to the root_path" do
-        patch :update, params: { id: group.id, group: group_params }
+        effective_parames
         expect(response).to redirect_to root_path
       end
     end
@@ -113,6 +115,7 @@ describe GroupsController do
     context 'when no effective parameters' do
       let(:not_effective) { {name: nil} }
       before { patch :update, params: { id: group.id, group: not_effective } }
+
       it "redirect to :edit template" do
         expect(response).to redirect_to "/groups/#{group.id}/edit"
       end

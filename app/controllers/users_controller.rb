@@ -3,11 +3,16 @@ class UsersController < ApplicationController
   def edit;end
 
   def update
-    current_user.update(user_params) ? (redirect_to root_path) : (render :edit)
+    user = 
+    if current_user.update(user_params)
+      redirect_to root_path
+    else
+      redirect_to edit_user_path(current_user.id)
+    end
   end
 
   private
   def user_params
-    params[:user].permit(:name, :email)
+    params.require(:user).permit(:name, :email)
   end
 end
