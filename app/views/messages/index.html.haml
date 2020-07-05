@@ -25,7 +25,7 @@
 
 
   .mainbar__footer
-    = form_with model: [@groups, @message], local: true do |f|
+    = form_with model: [@groups, @message] do |f|
       %ul.mainbar__footer-box
         %li.inputbox
           = f.text_field :text, placeholder: 'type a text'

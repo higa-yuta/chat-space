@@ -13,4 +13,4 @@
         .sidebar__main-groupname
           = group.name
         .sidebar__main-message
-          = group.messages.blank? ? 'no message' : group.messages.map(&:text).first
+          = group.messages.blank? ? 'no message' : group.messages.map(&:text).last
