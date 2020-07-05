@@ -69,6 +69,7 @@ gem 'rspec-rails'
 gem 'factory_bot_rails'
 gem 'rails-controller-testing'
 gem 'faker'
+gem 'jquery-rails'
 # Please clean up duplicated gems if any.
 # Feel free to remove gems that you don't want to use or if they conflict with other gem dependencies. (you might need to update .pryrc also)
 group :development, :test do
