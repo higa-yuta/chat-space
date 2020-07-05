@@ -12,7 +12,7 @@ class GroupsController < ApplicationController
   end
 
   def create
-    unless exi_newname?(group_params)
+    unless exist_newname?(group_params)
       @group = Group.new(group_params)
       if @group.save
         redirect_to root_path, notice: 'succsess'
